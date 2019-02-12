@@ -1,22 +1,17 @@
 <template>
-  <div>
-      <h2>r/{{ sub }}</h2>
-      <div class="thread" v-for="thread in threads" :key="thread.id">
-          <h3>{{ thread.title }} 
-            <span v-if="thread.domain">(<a href="">{{ thread.domain }}</a>)</span>
-          </h3>
-          <div class="thread__info">
-            <span class="thread__info--score">{{ thread.score | abbr }} upvotes</span>
-            <span class="thread__info--author">by u/{{ thread.author }}</span>
-            <span class="thread__info--subreddit">
-              <a v-if="thread.subreddit != sub" :href='"#/r/" + thread.subreddit'>
-                r/{{ thread.subreddit }}
-              </a>
-            </span>
-            <span class="thread__info--time">&nbsp;{{ thread.created_utc | since }}</span>
-            <span class="thread__info--comments">&nbsp;{{ thread.num_comments | abbr }} comments</span>
-          </div>
-      </div>
+  <div class="listings">
+    <div class="listing__thread" v-for="thread in threads" :key="thread.id">
+        <h3>{{ thread.title }} 
+          <span v-if="thread.domain">(<a href="">{{ thread.domain }}</a>)</span>
+        </h3>
+        <div class="listing__thread--info">
+          <span class="listing__thread--score">{{ thread.score | abbr }} upvotes</span>
+          <span class="listing__thread--author">by u/{{ thread.author }}</span>
+          <span v-if="thread.subreddit != sub" @click="navigate(thread.subreddit)" class="listing__thread--subreddit">r/{{ thread.subreddit }}</span>
+          <span class="listing__thread--time">&nbsp;{{ thread.created_utc | since }}</span>
+          <span @click="navigate(sub, thread.id)" class="listing__thread--comments">&nbsp;{{ thread.num_comments | abbr }} comments</span>
+        </div>
+    </div>
   </div>
 </template>
 
@@ -39,7 +34,7 @@ export default {
     let response = await res.json();
 
     if (res.status == 404) {
-      this.err = response.reason;
+      this.err = response.reason ? response.reason : response.message;
     } else {
       for (var i = 0; i < response.data.children.length; i++) {
         this.threads.push(response.data.children[i].data);
