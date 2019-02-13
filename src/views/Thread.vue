@@ -1,4 +1,4 @@
-<template>  
+<template>
   <div class="thread">
     <div class="thread__info">
       <h3>
@@ -43,25 +43,16 @@ export default {
   },
   data: function() {
     return {
-      comments: [],
-      thread: {},
-      sub: ""
+      comments: this.$store.state.comments,
+      thread: this.$store.state.thread,
+      sub: this.$store.state.subreddit
     };
   },
   created: async function() {
-    this.sub = this.$route.params.subreddit;
-
-    let res = await fetch(`https://www.reddit.com/r/${this.sub}/comments/${this.id}.json`);
-    let response = await res.json();
-
-    if (res.status == 404) {
-      this.err = response.reason;
-    } else {
-      for (var i = 0; i < response[1].data.children.length; i++) {
-        this.thread = response[0].data.children[0].data;
-        this.comments.push(response[1].data.children[i]);
-      }
-    }
+    this.$store.dispatch(
+      'getComments',
+      this.$route.params
+    );
   },
   computed: {
     filteredComments: function () {
