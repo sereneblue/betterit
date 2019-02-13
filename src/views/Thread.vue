@@ -44,8 +44,7 @@ export default {
   data: function() {
     return {
       comments: this.$store.state.comments,
-      thread: this.$store.state.thread,
-      sub: this.$store.state.subreddit
+      thread: this.$store.state.thread
     };
   },
   created: async function() {
@@ -59,6 +58,9 @@ export default {
       return this.comments.filter(c => {
         return c.kind == "t1"
       });
+    },
+    sub () {
+      return this.$store.state.subreddit;
     }
   }
 };

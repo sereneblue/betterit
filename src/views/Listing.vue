@@ -34,7 +34,6 @@ export default {
   data: function() {
     return {
       err: this.$store.state.error,
-      sub: this.$store.state.subreddit,
       threads: this.$store.state.threads
     };
   },
@@ -43,6 +42,11 @@ export default {
       'getListings',
       this.$route.params
     );
+  },
+  computed: {
+    sub () {
+      return this.$store.state.subreddit;
+    }
   }
 };
 </script>
