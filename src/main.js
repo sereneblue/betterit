@@ -2,12 +2,14 @@ import Vue from "vue";
 import moment from "moment";
 import App from "./App.vue";
 import Comment from "@/components/Comment.vue";
+import NavBar from "@/components/NavBar.vue";
 import router from "./router";
 import store from "./store";
 
 Vue.config.productionTip = false;
 
 Vue.component('Reply', Comment);
+Vue.component('NavBar', NavBar);
 
 Vue.filter('abbr', function (num) {
 	if (num === 0) { return '0'; }

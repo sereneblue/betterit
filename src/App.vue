@@ -1,18 +1,9 @@
 <template>
   <div id="app">
-    <router-view />
+    <NavBar />
+    <router-view :key="$route.fullPath" />
   </div>
 </template>
-
-<script type="text/javascript">
-  window.onhashchange = function() {
-      window.location.reload()
-  }
-
-  let navigate = (subreddit, comment) => {
-    window.location = comment ? `#/r/${subreddit}/${comment}` : `#/r/${subreddit}`; 
-  }
-</script>
 
 <style lang="scss">
 	* {

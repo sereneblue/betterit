@@ -13,13 +13,13 @@ export default new Router({
       component: Listing
     },
     {
-      path: "/r/:subreddit",
+      path: "/r/:subreddit/:sort?",
       name: "subreddit",
       component: Listing,
       props: true
     },
     {
-      path: "/r/:subreddit/:id",
+      path: "/r/:subreddit/t/:id",
       name: "thread",
       component: Thread,
       props: true
