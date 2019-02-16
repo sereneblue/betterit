@@ -7,12 +7,12 @@
             <span v-if="thread.over_18" class="label--nsfw">NSFW</span>
           </div>
           <div v-if="thread.post_hint" class="listing__content">
-            <span v-if="thread.post_hint == 'image'">IMAGE</span>
-            <span v-else-if="thread.post_hint == 'rich:video'">VIDEO</span>
+            <span v-if="thread.post_hint == 'image'" @mouseover="show(thread.url);">IMAGE</span>
+            <span v-else-if="thread.post_hint == 'rich:video' || thread.post_hint == 'hosted:video'">VIDEO</span>
           </div>
           <div class="listing__thread--info">
             <span class="listing__thread--score">{{ thread.score | abbr }} upvotes</span>
-            <span class="listing__thread--author">by u/{{ thread.author }}</span>
+            <span class="listing__thread--author"> {{ thread.author }}</span>
             <router-link 
               v-if="thread.subreddit != sub" 
               :to="{ name: 'subreddit', params: { subreddit: thread.subreddit, sort: 'hot' }}"
@@ -52,5 +52,22 @@ export default {
 </script>
 
 <style lang="scss">
-  
+  .listings {
+    padding-top: 30px;
+  }
+
+  .listing {
+    &__thread {
+      padding: 10px 20px;
+
+      &:last-child {
+        padding-bottom: 30px;
+      }
+    }
+
+    &__title {
+      font-size: 1.2em;
+      font-weight: 600;
+    }
+  }
 </style>

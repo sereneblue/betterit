@@ -67,5 +67,13 @@ export default {
 </script>
 
 <style lang="scss">
-  
+  .thread {
+    padding-top: 40px;
+
+    &__info {
+      h3 {
+        font-size: 1.5em;
+      }
+    }
+  }
 </style>

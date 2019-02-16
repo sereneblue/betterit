@@ -53,4 +53,19 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .comment {
+    padding: 10px 0px;
+
+    &__data {
+      padding-top: 5px;
+    }
+  }
+
+  @for $i from 1 through 10 {
+    $offset: $i * 10;
+
+    .depth-#{$i} {
+        margin-left: #{$offset}px;
+    }
+  }
 </style>
