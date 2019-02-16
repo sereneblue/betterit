@@ -66,8 +66,8 @@ export default new Vuex.Store({
           commit('updateSubreddit', sub);
           commit('clear');
 
+          commit('updateThread', response[0].data.children[0].data);
           for (var i = 0; i < response[1].data.children.length; i++) {
-            commit('updateThread', response[0].data.children[0].data);
             commit('updateComments', response[1].data.children[i]);
           }
         }

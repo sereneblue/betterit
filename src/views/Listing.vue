@@ -43,6 +43,11 @@ export default {
       this.$route.params
     );
   },
+  methods: {
+    show: function (url) {
+      console.log(url);
+    }
+  },
   computed: {
     sub () {
       return this.$store.state.subreddit;

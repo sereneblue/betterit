@@ -12,7 +12,7 @@ Vue.component('Reply', Comment);
 Vue.component('NavBar', NavBar);
 
 Vue.filter('abbr', function (num) {
-	if (num === 0) { return '0'; }
+	if (num === 0 || num === undefined ) { return '0'; }
 	let b = (num).toPrecision(2).split("e"),
 	  k = b.length === 1 ? 0 : Math.floor(Math.min(b[1].slice(1), 14) / 3),
 	  c = k < 1 ? num.toFixed(0) : (num / Math.pow(10, k * 3) ).toFixed(1),
