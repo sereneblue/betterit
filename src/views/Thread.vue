@@ -1,13 +1,13 @@
 <template>
-  <div class="thread">
+  <div v-if="threadLoaded" class="thread">
     <div class="thread__info">
-      <h3>
+      <h3 class="thread__info--title">
         {{ thread.title }} 
-        <span v-if="thread.domain">(<a href="">{{ thread.domain }}</a>)</span>
+        <span v-if="thread.domain" class="thread__info--domain">(<a href="">{{ thread.domain }}</a>)</span>
       </h3>
       <div class="thread__meta">
-        <span class="thread__meta--score">{{ thread.score | abbr }} upvotes</span>
-        <span class="thread__meta--author">by u/{{ thread.author }}</span>
+        <span class="thread__meta--score">{{ thread.score | abbr }}</span>
+        <span class="thread__meta--author">{{ thread.author }}</span>
         <span class="thread__meta--subreddit">
           <a v-if="thread.subreddit != sub" :href='"#/r/" + thread.subreddit'>
             r/{{ thread.subreddit }}
@@ -18,16 +18,18 @@
       </div>
     </div>
     <div class="thread__comments">
-      <Comment 
-      v-for="comment in filteredComments"
-      :author="comment.data.author"
-      :created="comment.data.created"
-      :score="comment.data.score"
-      :body="comment.data.body"
-      :replies="comment.data.replies"
-      :depth="comment.data.depth"
-      :key="comment.data.id"
-      />
+      <div v-if="comments.length > 0">
+        <Comment
+        v-for="comment in comments"
+        :author="comment.author"
+        :created="comment.created"
+        :score="comment.score"
+        :body="comment.body"
+        :replies="comment.replies"
+        :depth="comment.depth"
+        :key="`comment-${comment.id}`"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -41,26 +43,24 @@ export default {
   components: {
     Comment
   },
-  data: function() {
-    return {
-      comments: this.$store.state.comments,
-      thread: this.$store.state.thread
-    };
-  },
-  created: async function() {
+  created: function() {
     this.$store.dispatch(
       'getComments',
       this.$route.params
     );
   },
   computed: {
-    filteredComments: function () {
-      return this.comments.filter(c => {
-        return c.kind == "t1"
-      });
+    comments () {
+      return this.$store.state.comments;
     },
     sub () {
       return this.$store.state.subreddit;
+    },
+    thread () {
+      return this.$store.state.thread;
+    },
+    threadLoaded () {
+      return this.$store.state.threadLoaded;
     }
   }
 };
@@ -68,11 +68,22 @@ export default {
 
 <style lang="scss">
   .thread {
+    padding: 0px 20px;
     padding-top: 40px;
 
     &__info {
-      h3 {
-        font-size: 1.5em;
+      &--domain {
+        color: grey;
+        font-size: .7em;
+
+        & a {
+          color: grey;
+          text-decoration: none;
+        }
+      }
+
+      &--title {
+        font-size: 1.8em;
       }
     }
   }
