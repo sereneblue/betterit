@@ -5,6 +5,7 @@ import Comment from "@/components/Comment.vue";
 import NavBar from "@/components/NavBar.vue";
 import router from "./router";
 import store from "./store";
+require('typeface-open-sans');
 
 Vue.config.productionTip = false;
 
