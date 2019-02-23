@@ -32,6 +32,10 @@
       </div>
     </div>
   </div>
+  <div v-else class="thread">
+    <div class="thread__info--placeholder">&nbsp;</div>
+    <div class="thread__comments--placeholder">&nbsp;</div>
+  </div>
 </template>
 
 <script>
@@ -84,6 +88,19 @@ export default {
 
       &--title {
         font-size: 1.8em;
+      }
+
+      &--placeholder {
+        background-color: darkgray;
+        height: 2em;
+      }
+    }
+
+    &__comments {
+      &--placeholder {
+        background-color: darkgray;
+        margin-top: 1em;
+        height: 10em;
       }
     }
   }

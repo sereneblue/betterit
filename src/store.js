@@ -17,6 +17,8 @@ export default new Vuex.Store({
     CLEAR: (state) => {
       state.comments.length = 0;
       state.listings.length = 0;
+      state.threadLoaded = false;
+      state.listingsLoaded = false;
       state.thread = Object.assign(state.thread, {});
     },
     LISTINGS_LOADED: (state) => {

@@ -1,5 +1,5 @@
 <template>
-  <div class="listings">
+  <div v-if="listingsLoaded" class="listings">
     <div class="listing__thread" v-for="thread in listings" :key="`thread-${thread.id}`">
       <div class="listing__list">
         <div class="listing__title">{{ thread.title }} 
@@ -25,6 +25,12 @@
       </div>
     </div>
   </div>
+  <div v-else class="listings">
+    <div class="listing__thread" v-for="t in 10">
+      <div class="listing__title--placeholder">&nbsp;</div>
+      <div class="listing__thread-info--placeholder">&nbsp;</div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -43,6 +49,9 @@ export default {
     },
     listings () {
       return this.$store.state.listings;
+    },
+    listingsLoaded () {
+      return this.$store.state.listingsLoaded;
     },
     sub () {
       return this.$store.state.subreddit;
@@ -83,6 +92,12 @@ export default {
     &__title {
       font-size: 1.4em;
       font-weight: 600;
+
+      &--placeholder {
+        background-color: darkgray;
+        height: 2em;
+        margin-bottom: .5em;
+      }
     }
 
   }
@@ -92,6 +107,12 @@ export default {
 
     & * {
       padding: 0px 2px;
+    }
+
+    &--placeholder {
+      background-color: darkgray;
+      height: 1em;
+      margin-bottom: .5em;
     }
   }
 </style>
