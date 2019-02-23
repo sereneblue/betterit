@@ -42,7 +42,7 @@
     font-weight: normal;
   }
 
-  #app {
+  #app > div {
     margin: 0 auto;
     width: 80%;
   }

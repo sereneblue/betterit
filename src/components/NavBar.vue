@@ -7,7 +7,6 @@
       <router-link :to="{ name: 'subreddit', params: { subreddit: sub, sort: 'controversial' }}" tag="li">controversial</router-link>
       <router-link :to="{ name: 'subreddit', params: { subreddit: sub, sort: 'top' }}" tag="li">top</router-link>
     </ul>
-    <span class="settings">X</span>
   </nav>
 </template>
 
@@ -29,11 +28,12 @@ export default {
     justify-content: space-between;
     padding: 5px 10px;
     position: fixed;
-    width: 80vw;
+    width: 100%;
 
     & ul {
       display: flex;
       flex-direction: row;
+      margin: 0 auto;
 
       li {
         list-style-type: none;
@@ -41,12 +41,7 @@ export default {
         text-align: center;
       }
     }
-
-    & .settings {
-      display: flex;
-      align-self: flex-end;
-    }
-
+    
     & .sub {
       font-weight: 600;
     }
