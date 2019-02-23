@@ -9,6 +9,8 @@
   export default {
     watch: {
       $route (to, from){
+        this.$store.dispatch('clearState');
+
         if (to.name == "subreddit") {
           this.$store.dispatch(
             'getListings',

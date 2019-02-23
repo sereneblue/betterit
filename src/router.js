@@ -17,20 +17,12 @@ export default new Router({
       path: "/r/:subreddit/:sort?",
       name: "subreddit",
       component: Listing,
-      beforeEnter: (to, from, next) => {
-        store.dispatch('clearState');
-        next();
-      },
       props: true
     },
     {
       path: "/r/:subreddit/t/:id",
       name: "thread",
       component: Thread,
-      beforeEnter: (to, from, next) => {
-        store.dispatch('clearState');
-        next();
-      },
       props: true
     }
   ]
