@@ -78,7 +78,7 @@ export default {
     
     &__thread {
       padding: .75em .5em;
-      box-shadow: 2px 0px 6px -6px #222;
+      box-shadow: 0px 0px 6px -6px #222;
 
       &:last-child {
         padding-bottom: 30px;
