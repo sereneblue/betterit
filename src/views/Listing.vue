@@ -31,11 +31,6 @@
 export default {
   name: "listing",
   props: ['subreddit'],
-  methods: {
-    show: function (e, url) {
-      
-    }
-  },
   created: function() {
     this.$store.dispatch(
       'getListings',
