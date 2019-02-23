@@ -26,7 +26,6 @@
         :score="comment.score"
         :body="comment.body"
         :replies="comment.replies"
-        :depth="comment.depth"
         :key="`comment-${comment.id}`"
         />
       </div>
