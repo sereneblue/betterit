@@ -1,13 +1,16 @@
 <template>
   <div :class="commentStyle">
     <div class="comment__info">
-      <span class="comment__info--meta">{{ author }} {{ created | since }}</span>
-      <span class="comment__toggle">[-]</span>
+      <span class="comment__info-meta">
+        <span class="comment__info-meta--author">{{ author }}</span>
+        <span class="comment__info-meta--time">{{ created | since }}</span>
+      </span>
+      <span @click="hidden = !hidden" :class="{ comment__toggle : true, toggled : hidden }">{{ toggle }}</span>
     </div>
-    <div class="comment__data">
+    <div v-show="!hidden" class="comment__data">
       {{ body }}
     </div>
-    <div v-if="replies" class="replies">
+    <div v-show="replies && !hidden" class="replies">
       <Reply
       v-for="reply in filteredReplies"
       :author="reply.data.author"
@@ -15,7 +18,6 @@
       :score="reply.data.score"
       :body="reply.data.body_html"
       :replies="reply.data.replies"
-      :depth="reply.data.depth"
       :key="reply.data.id"
       />
     </div>
@@ -29,24 +31,26 @@ export default {
     author: String,
     body: String,
     created: Number,
-    depth: Number,
     level: Number,
     score: Number,
     replies: [String, Object]
   },
   data: function() {
     return {
-      toggled: false
+      hidden: false
     };
   },
   computed: {
     commentStyle: function () {
-      return `comment depth-${this.depth}`;
+      return `comment nested`;
     },
     filteredReplies: function () {
       return this.replies.data.children.filter(c => {
         return c.kind == "t1"
       });
+    },
+    toggle: function () {
+      return this.hidden ? "[+]" : "[–]";
     }
   }
 };
@@ -54,18 +58,41 @@ export default {
 
 <style scoped lang="scss">
   .comment {
-    padding: 10px 0px;
+    box-shadow: inset 3px 0px 0px 0px black;
+    background-color: rgba(60, 60, 60, 0.075);
+    margin-bottom: 8px;
+    padding-left: 10px;
 
     &__data {
-      padding-top: 5px;
+      padding-top: 8px;
     }
-  }
 
-  @for $i from 1 through 10 {
-    $offset: $i * 10;
+    &__info-meta {
+      &--author {
+        font-weight: 600;
+      }
 
-    .depth-#{$i} {
-        margin-left: #{$offset}px;
+      &--time {
+        font-size: .9em;
+        padding: 0px .4rem;
+      }
+    }
+
+    &__toggle {
+      cursor: pointer;
+
+      &.toggled {
+        color: rgba(0,0,0,0.5);
+      }
+    }
+
+    & .nested {
+      padding-top: 5px;
+      margin-left: 8px;
+    }
+
+    & .replies {
+      padding-top: 8px;
     }
   }
 </style>
