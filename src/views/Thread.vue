@@ -26,6 +26,7 @@
         :score="comment.score"
         :body="comment.body"
         :replies="comment.replies"
+        :submitter="comment.is_submitter"
         :key="`comment-${comment.id}`"
         />
       </div>

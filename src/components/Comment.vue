@@ -2,7 +2,7 @@
   <div :class="commentStyle">
     <div class="comment__info">
       <span class="comment__info-meta">
-        <span class="comment__info-meta--author">{{ author }}</span>
+        <span class="comment__info-meta--author"><span v-if="submitter">★ </span>{{ author }}</span>
         <span class="comment__info-meta--time">{{ created | since }}</span>
       </span>
       <span @click="hidden = !hidden" :class="{ comment__toggle : true, toggled : hidden }">{{ toggle }}</span>
@@ -18,6 +18,7 @@
       :score="reply.data.score"
       :body="reply.data.body_html"
       :replies="reply.data.replies"
+      :submitter="reply.data.is_submitter"
       :key="reply.data.id"
       />
     </div>
@@ -33,7 +34,8 @@ export default {
     created: Number,
     level: Number,
     score: Number,
-    replies: [String, Object]
+    replies: [String, Object],
+    submitter: Boolean
   },
   data: function() {
     return {
