@@ -2,7 +2,7 @@
   <div v-if="threadLoaded" class="thread">
     <div class="thread__info">
       <h3 class="thread__info--title">
-        {{ thread.title }} 
+        <span v-html="thread.title"></span> 
         <span v-if="thread.domain" class="thread__info--domain">(<a href="">{{ thread.domain }}</a>)</span>
       </h3>
       <div class="thread__meta">
