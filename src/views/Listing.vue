@@ -93,12 +93,6 @@ export default {
     &__title {
       font-size: 1.4em;
       font-weight: 600;
-
-      &--placeholder {
-        background-color: darkgray;
-        height: 2em;
-        margin-bottom: .5em;
-      }
     }
 
   }
@@ -108,12 +102,6 @@ export default {
 
     & * {
       padding: 0px 2px;
-    }
-
-    &--placeholder {
-      background-color: darkgray;
-      height: 1em;
-      margin-bottom: .5em;
     }
   }
 </style>
