@@ -75,8 +75,7 @@ export default {
 
 <style lang="scss">
   .thread {
-    padding: 0px 20px;
-    padding-top: 40px;
+    padding: 40px 20px 20px 20px;
 
     &__info {
       &--domain {
