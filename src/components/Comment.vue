@@ -68,18 +68,28 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
   .comment {
     box-shadow: inset 3px 0px 0px 0px black;
-    background-color: rgba(60, 60, 60, 0.075);
+    background-color: rgba(60, 60, 60, 0.06);
     margin-bottom: 8px;
-    padding-left: 10px;
+    padding: 0px 0px 4px 8px;
 
     &__data {
       padding-top: 8px;
+
+      & ol, ul {
+        padding: 10px 0px 10px 20px;
+      }
+
+      & a {
+        color: hsla(206,100%,35%,1);
+      }
     }
 
     &__info-meta {
+      font-size: .9em; 
+
       &--author {
         font-weight: 600;
       }
@@ -91,6 +101,7 @@ export default {
     }
 
     &__toggle {
+      font-size: .9em;
       cursor: pointer;
 
       &.toggled {
