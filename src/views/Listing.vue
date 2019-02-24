@@ -27,17 +27,19 @@
     </div>
   </div>
   <div v-else class="listings">
-    <div class="listing__thread" v-for="t in 10">
-      <div class="listing__title--placeholder">&nbsp;</div>
-      <div class="listing__thread-info--placeholder">&nbsp;</div>
-    </div>
+    <Loader />
   </div>
 </template>
 
 <script>
+import Loader from "@/components/Loader.vue";
+
 export default {
   name: "listing",
   props: ['subreddit'],
+  components: {
+    Loader
+  },
   created: function() {
     this.$store.dispatch(
       'getListings',

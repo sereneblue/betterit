@@ -36,19 +36,20 @@
     </div>
   </div>
   <div v-else class="thread">
-    <div class="thread__info--placeholder">&nbsp;</div>
-    <div class="thread__comments--placeholder">&nbsp;</div>
+    <Loader />
   </div>
 </template>
 
 <script>
 import Comment from "@/components/Comment.vue";
+import Loader from "@/components/Loader.vue";
 
 export default {
   name: "thread",
   props: ['id', 'subreddit'],
   components: {
-    Comment
+    Comment,
+    Loader
   },
   created: function() {
     this.$store.dispatch(
