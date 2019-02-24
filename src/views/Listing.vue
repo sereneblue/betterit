@@ -76,11 +76,6 @@ export default {
     &__domain {
       color: grey;
       font-size: .7em;
-
-      & a {
-        color: grey;
-        text-decoration: none;
-      }
     }
     
     &__thread {
@@ -104,6 +99,10 @@ export default {
 
     & * {
       padding: 0px 2px;
+    }
+
+    & a {
+      color: hsla(206,100%,35%,1);
     }
   }
 </style>
