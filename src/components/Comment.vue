@@ -59,7 +59,16 @@ export default {
     html: function () {
       let txt = document.createElement("textarea");
       txt.innerHTML = this.body;
-      return txt.value;
+
+      // fix links
+      let cleanedText = txt.value.replace(/href="\/?(r\/[^\s/]+\/?)"/g, `href="/#/$1"`);
+      cleanedText = cleanedText.replace(/href="https:\/\/www.reddit.com\/(r\/[^\s/]+\/?)\/comments\/(.*?)\/.*?\/">/g, `href="/#/$1/t/$2">`);
+
+      // remove user link profile
+      cleanedText = cleanedText.replace(/<a href="\/?(u\/.*?)\/?">.*?<\/a>/g, `/$1`);
+      cleanedText = cleanedText.replace(/<a href="https:\/\/www.reddit.com\/(u\/.*?)\/?>.*?<\/a>/g, `/$1`);
+
+      return cleanedText;
     },
     toggle: function () {
       return this.hidden ? "[+]" : "[–]";
