@@ -1,10 +1,10 @@
 <template>
   <div v-if="listingsLoaded" class="listings">
-    <div class="listing__thread" v-for="thread in listings" :key="`thread-${thread.id}`">
+    <div @click="goToThread(thread)" class="listing__thread" v-for="thread in listings" :key="`thread-${thread.id}`">
       <div class="listing__list">
         <div class="listing__title">
           <span v-html="thread.title"></span> 
-          <span v-if="thread.domain.indexOf('self.') == -1" class="listing__domain">({{ thread.domain }})</span>
+          <span v-if="thread.domain.indexOf('self.') == -1" class="listing__domain">&nbsp;({{ thread.domain }})</span>
           <span v-if="thread.over_18" class="label--nsfw">NSFW</span>
         </div>
         <div v-if="thread.post_hint" class="listing__content">
@@ -13,12 +13,12 @@
         </div>
         <div class="listing__thread-info">
           <span class="listing__thread-info--score">▲ {{ thread.score | abbr }}</span>
-          <span class="listing__thread-info--author"> {{ thread.author }}</span>
+          <span class="listing__thread-info--author">| by {{ thread.author }}</span>
           <router-link 
             v-if="thread.subreddit != sub" 
             :to="{ name: 'subreddit', params: { subreddit: thread.subreddit, sort: 'hot' }}"
             class="listing__thread-info--sub">{{ thread.subreddit_name_prefixed }}</router-link>
-          <span class="listing__thread-info--time">&nbsp;{{ thread.created_utc | since }}</span>
+          <span class="listing__thread-info--time">{{ thread.created_utc | since }} |</span>
           <router-link
             :to="{ name: 'thread', params: { subreddit: thread.subreddit, id: thread.id }}"
             class="listing__thread-info--comments">{{ thread.num_comments | abbr }} comments</router-link>
@@ -59,6 +59,11 @@ export default {
     sub () {
       return this.$store.state.subreddit;
     }
+  },
+  methods: {
+    goToThread: function (thread) {
+      this.$router.push({ name: 'thread', params: { subreddit: thread.subreddit, id: thread.id }});
+    }
   }
 };
 </script>
@@ -85,6 +90,11 @@ export default {
       &:last-child {
         padding-bottom: 30px;
       }
+
+      &:hover {
+        background-color: rgba(0,0,0,0.05);
+        cursor: pointer;
+      } 
     }
 
     &__title {
@@ -95,7 +105,7 @@ export default {
   }
 
   .listing__thread-info {
-    font-size: 1em;
+    font-size: .9em;
 
     & * {
       padding: 0px 2px;
