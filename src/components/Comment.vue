@@ -45,9 +45,9 @@ export default {
       return `comment nested`;
     },
     filteredReplies: function () {
-      return this.replies.data.children.filter(c => {
+      return this.replies ? this.replies.data.children.filter(c => {
         return c.kind == "t1"
-      });
+      }) : [];
     },
     toggle: function () {
       return this.hidden ? "[+]" : "[–]";
