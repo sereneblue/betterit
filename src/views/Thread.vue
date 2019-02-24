@@ -29,6 +29,9 @@
         :key="`comment-${comment.id}`"
         />
       </div>
+      <div v-else>
+        No comments. 
+      </div>
     </div>
   </div>
   <div v-else class="thread">
