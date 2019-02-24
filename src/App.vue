@@ -42,6 +42,16 @@
     font-weight: normal;
   }
 
+  code {
+      font-family: 'Noto Mono, Menlo, Monaco, Consolas';
+      line-height: 20px;
+      background: rgba(238, 238, 238, 0.8) none repeat scroll 0% 0%;
+      color: rgb(255, 0, 109);
+      margin: 0px 2px;
+      max-width: 100%;
+      overflow: auto;
+  }
+
   #app > div {
     margin: 0 auto;
     width: 80%;

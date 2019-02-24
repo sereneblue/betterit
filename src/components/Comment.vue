@@ -8,7 +8,7 @@
       <span @click="hidden = !hidden" :class="{ comment__toggle : true, toggled : hidden }">{{ toggle }}</span>
     </div>
     <div v-show="!hidden" class="comment__data">
-      {{ body }}
+      <vue-markdown>{{ html }}</vue-markdown>
     </div>
     <div v-show="replies && !hidden" class="replies">
       <Reply
@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import VueMarkdown from 'vue-markdown'
+
 export default {
   name: "comment",
   props: {
@@ -36,6 +38,9 @@ export default {
     score: Number,
     replies: [String, Object],
     submitter: Boolean
+  },
+  components: {
+    VueMarkdown
   },
   data: function() {
     return {
@@ -50,6 +55,11 @@ export default {
       return this.replies ? this.replies.data.children.filter(c => {
         return c.kind == "t1"
       }) : [];
+    },
+    html: function () {
+      let txt = document.createElement("textarea");
+      txt.innerHTML = this.body;
+      return txt.value;
     },
     toggle: function () {
       return this.hidden ? "[+]" : "[–]";
