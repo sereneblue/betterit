@@ -1,12 +1,15 @@
 <template>
   <nav>
-    <ul>
+    <ul v-if="loaded">
       <router-link :to="{ name: 'subreddit', params: { subreddit: sub, sort: 'hot' }}" class="active" tag="li">r/{{ sub }}</router-link>
       <span>|</span>
       <router-link :to="{ name: 'subreddit', params: { subreddit: sub, sort: 'new' }}" active-class="active" tag="li">new</router-link>
       <router-link :to="{ name: 'subreddit', params: { subreddit: sub, sort: 'rising' }}" active-class="active" tag="li">rising</router-link>
       <router-link :to="{ name: 'subreddit', params: { subreddit: sub, sort: 'controversial' }}" active-class="active" tag="li">controversial</router-link>
       <router-link :to="{ name: 'subreddit', params: { subreddit: sub, sort: 'top' }}" active-class="active" tag="li">top</router-link>
+    </ul>
+    <ul v-else>
+      <li>Loading...</li>
     </ul>
   </nav>
 </template>
@@ -17,6 +20,9 @@ export default {
   computed: {
     sub () {
       return this.$store.state.subreddit;
+    },
+    loaded () {
+      return this.$store.state.threadLoaded || this.$store.state.listingsLoaded;
     }
   }
 };
