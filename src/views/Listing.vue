@@ -2,7 +2,8 @@
   <div v-if="listingsLoaded" class="listings">
     <div class="listing__thread" v-for="thread in listings" :key="`thread-${thread.id}`">
       <div class="listing__list">
-        <div class="listing__title">{{ thread.title }} 
+        <div class="listing__title">
+          <span v-html="thread.title"></span> 
           <span v-if="thread.domain.indexOf('self.') == -1" class="listing__domain">({{ thread.domain }})</span>
           <span v-if="thread.over_18" class="label--nsfw">NSFW</span>
         </div>
