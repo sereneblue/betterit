@@ -3,7 +3,7 @@
     <div class="thread__info">
       <h3 class="thread__info--title">
         <span v-html="thread.title"></span> 
-        <span v-if="thread.domain" class="thread__info--domain">(<a href="">{{ thread.domain }}</a>)</span>
+        <span v-if="thread.domain" class="thread__info--domain">&nbsp;(<a href="">{{ thread.domain }}</a>)</span>
       </h3>
       <div class="thread__meta">
         <span class="thread__meta--score">{{ thread.score | abbr }}</span>
