@@ -61,12 +61,13 @@ export default {
       txt.innerHTML = this.body;
 
       // fix links
-      let cleanedText = txt.value.replace(/href="\/?(r\/[^\s/]+\/?)"/g, `href="/#/$1"`);
-      cleanedText = cleanedText.replace(/href="https:\/\/www.reddit.com\/(r\/[^\s/]+\/?)\/comments\/(.*?)\/.*?\/">/g, `href="/#/$1/t/$2">`);
+      let cleanedText = txt.value;
 
-      // remove user link profile
+      cleanedText = cleanedText.replace(/href="\/?(r\/[^\s/]+)\/?"/g, `href="/#/$1"`);
       cleanedText = cleanedText.replace(/<a href="\/?(u\/.*?)\/?">.*?<\/a>/g, `/$1`);
       cleanedText = cleanedText.replace(/<a href="https:\/\/www.reddit.com\/(u\/.*?)\/?>.*?<\/a>/g, `/$1`);
+      cleanedText = cleanedText.replace(/https:\/\/(www|old).reddit.com\/(r\/[^\s/]+\/?)\/comments\/(.*?)\/.*?\//g, `http://${window.location.host}/#/$2/t/$3`);
+      cleanedText = cleanedText.replace(/<a href=("\/message\.*?)">/, `#/dne`);
 
       return cleanedText;
     },
