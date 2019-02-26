@@ -93,7 +93,6 @@ export default {
       }
 
       &--time {
-        font-size: .9em;
         padding: 0px .4rem;
       }
     }

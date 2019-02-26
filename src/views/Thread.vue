@@ -6,14 +6,14 @@
         <span v-if="thread.domain" class="thread__info--domain">&nbsp;(<a href="">{{ thread.domain }}</a>)</span>
       </h3>
       <div class="thread__meta">
-        <span class="thread__meta--score">{{ thread.score | abbr }}</span>
-        <span class="thread__meta--author">{{ thread.author }}</span>
-        <span class="thread__meta--subreddit">
-          <a v-if="thread.subreddit != sub" :href='"#/r/" + thread.subreddit'>
+        <span class="thread__meta--score">▲ {{ thread.score | abbr }}&nbsp;</span>
+        <span class="thread__meta--author">| by {{ thread.author }}</span>
+        <span v-if="thread.subreddit != sub" class="thread__meta--subreddit">
+          <a :href='"#/r/" + thread.subreddit'>
             r/{{ thread.subreddit }}
           </a>
         </span>
-        <span class="thread__meta--time">&nbsp;{{ thread.created_utc | since }}</span>
+        <span class="thread__meta--time">&nbsp;{{ thread.created_utc | since }} |</span>
         <span class="thread__meta--comments">&nbsp;{{ thread.num_comments | abbr }} comments</span>
       </div>
     </div>
@@ -112,6 +112,10 @@ export default {
 
     &__comments {
       margin-top: 10px;
+    }
+
+    &__meta {
+      font-size: .9em;
     }
   }
 </style>
