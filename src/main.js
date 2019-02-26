@@ -6,6 +6,7 @@ import NavBar from "@/components/NavBar.vue";
 import router from "./router";
 import store from "./store";
 require('typeface-open-sans');
+require('typeface-source-code-pro');
 require('vue-ionicons/ionicons.css');
 
 Vue.config.productionTip = false;
