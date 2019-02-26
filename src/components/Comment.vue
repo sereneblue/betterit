@@ -57,19 +57,7 @@ export default {
       }) : [];
     },
     html: function () {
-      let txt = document.createElement("textarea");
-      txt.innerHTML = this.body;
-
-      // fix links
-      let cleanedText = txt.value;
-
-      cleanedText = cleanedText.replace(/href="\/?(r\/[^\s/]+)\/?"/g, `href="/#/$1"`);
-      cleanedText = cleanedText.replace(/<a href="\/?(u\/.*?)\/?">.*?<\/a>/g, `/$1`);
-      cleanedText = cleanedText.replace(/<a href="https:\/\/www.reddit.com\/(u\/.*?)\/?>.*?<\/a>/g, `/$1`);
-      cleanedText = cleanedText.replace(/https:\/\/(www|old).reddit.com\/(r\/[^\s/]+\/?)\/comments\/(.*?)\/.*?\//g, `http://${window.location.host}/#/$2/t/$3`);
-      cleanedText = cleanedText.replace(/<a href=("\/message\.*?)">/, `#/dne`);
-
-      return cleanedText;
+      return this.$options.filters.clean(this.body);
     },
     toggle: function () {
       return this.hidden ? "[+]" : "[–]";

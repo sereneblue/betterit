@@ -17,6 +17,9 @@
         <span class="thread__meta--comments">&nbsp;{{ thread.num_comments | abbr }} comments</span>
       </div>
     </div>
+    <div v-if="thread.selftext_html" class="thread__content">
+      <vue-markdown>{{ html }}</vue-markdown>
+    </div>
     <div class="thread__comments">
       <div v-if="comments.length > 0">
         <Comment
@@ -43,13 +46,15 @@
 <script>
 import Comment from "@/components/Comment.vue";
 import Loader from "@/components/Loader.vue";
+import VueMarkdown from 'vue-markdown'
 
 export default {
   name: "thread",
   props: ['id', 'subreddit'],
   components: {
     Comment,
-    Loader
+    Loader,
+    VueMarkdown
   },
   created: function() {
     this.$store.dispatch(
@@ -60,6 +65,9 @@ export default {
   computed: {
     comments () {
       return this.$store.state.comments;
+    },
+    html: function () {
+      return this.$options.filters.clean(this.thread.selftext_html);
     },
     sub () {
       return this.$store.state.subreddit;
@@ -79,6 +87,8 @@ export default {
     padding: 40px 20px 20px 20px;
 
     &__info {
+      margin-bottom: 10px;
+
       &--domain {
         color: grey;
         font-size: .7em;
@@ -92,6 +102,16 @@ export default {
       &--title {
         font-size: 1.8em;
       }
+    }
+
+    &__content {
+      padding: 10px 0px;
+      border-top: 2px solid black;
+      border-bottom: 2px solid black;
+    }
+
+    &__comments {
+      margin-top: 10px;
     }
   }
 </style>
