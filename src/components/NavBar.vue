@@ -22,7 +22,8 @@ export default {
       return this.$store.state.subreddit;
     },
     loaded () {
-      return this.$store.state.threadLoaded || this.$store.state.listingsLoaded;
+      return this.$route.name == "thread" ? 
+             this.$store.state.threadLoaded : this.$store.state.listingsLoaded;
     }
   }
 };
