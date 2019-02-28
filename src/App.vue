@@ -12,16 +12,8 @@
         this.$store.dispatch('clearState');
 
         if (to.name == "subreddit") {
-          this.$store.dispatch(
-            'getListings',
-            to.params
-          );
           this.$router.push({ name: to.name, params: to.params });
         } else if (to.name == "thread") {
-          this.$store.dispatch(
-            'getComments',
-            to.params
-          );
           this.$router.push({ name: to.name, params: to.params });
         }
       }
