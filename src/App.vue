@@ -80,6 +80,18 @@
           }
         }
 
+        & .subreddit-alert {
+          button {
+            border: 3px solid color($theme, ui);
+            color: color($theme, ui);
+
+            &:hover {
+              color: color($theme, bg);
+              background-color: color($theme, ui);
+            }
+          }
+        }
+
         & .thread {
           &__content {
             border-top: 2px solid color($theme, fg);

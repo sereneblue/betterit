@@ -9,7 +9,8 @@
       <router-link :to="{ name: 'subreddit', params: { subreddit: sub, sort: 'top' }}" active-class="active" tag="li">top</router-link>
     </ul>
     <ul v-else>
-      <li>Loading...</li>
+      <li v-if="!error">Loading...</li>
+      <router-link v-else :to="{ name: 'subreddit', params: { subreddit: 'popular', sort: 'hot' }}" class="active" tag="li"><= go to popular</router-link>
     </ul>
   </nav>
 </template>
@@ -18,6 +19,9 @@
 export default {
   name: "navbar",
   computed: {
+    error () {
+      return this.$store.state.error;
+    },
     sub () {
       return this.$store.state.subreddit;
     },

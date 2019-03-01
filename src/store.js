@@ -10,6 +10,7 @@ export default new Vuex.Store({
     error: "",
     listings: [],
     listingsLoaded: false,
+    nsfw: false,
     subreddit: "",
     theme: "light",
     thread: {},
@@ -30,10 +31,14 @@ export default new Vuex.Store({
       state.listings = [];
       state.threadLoaded = false;
       state.listingsLoaded = false;
+      state.nsfw = false;
       state.thread = Object.freeze({});
     },
     LISTINGS_LOADED: (state) => {
       Vue.set(state, 'listingsLoaded', true);
+    },
+    NSFW_SUB: (state) => {
+      state.nsfw = true;
     },
     THREAD_LOADED: (state) => {
       Vue.set(state, 'threadLoaded', true);
@@ -42,7 +47,7 @@ export default new Vuex.Store({
       Vue.set(state, 'comments', comments);
     },
     UPDATE_ERROR: (state, err) => {
-      Vue.set(state, 'err', err);
+      Vue.set(state, 'error', err);
     },
     UPDATE_LISTINGS: (state, listings) => {
       Vue.set(state, 'listings', listings);
@@ -80,9 +85,22 @@ export default new Vuex.Store({
       let res = await fetch(`https://www.reddit.com/r/${sub}${order}.json`);
       let response = await res.json();
 
-      if (res.status == 404) {
+      if (res.status == 404 || res.status == 403) {
         commit('UPDATE_ERROR', response.reason ? response.reason : response.message);
       } else {
+        // check if nsfw
+        if (!sub.includes('+')) {
+          res = await fetch(`https://www.reddit.com/r/${sub}/about.json`);
+
+          if (res.status == 200) {
+            let aboutRes = await res.json();
+
+            if (aboutRes.data && aboutRes.data.over18) {
+              commit('NSFW_SUB');
+            }
+          }
+        }
+
         let listings = response.data.children.filter(t => {
           return t.kind == "t3"
         }).map(t => t.data);
@@ -103,7 +121,7 @@ export default new Vuex.Store({
       let res = await fetch(`https://www.reddit.com/r/${sub}/comments/${params.id}.json`);
       let response = await res.json();
 
-      if (res.status == 404) {
+      if (res.status == 404 || res.status == 403) {
         commit('UPDATE_ERROR', response.reason ? response.reason : response.message);
       } else {
         commit('UPDATE_ERROR', "");
