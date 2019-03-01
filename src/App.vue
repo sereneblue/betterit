@@ -22,13 +22,14 @@
 </script>
 
 <style lang="scss">
+  @import '@/assets/_colors.scss';
+
 	* {
 		margin: 0;
 		padding: 0;
 	}
 
   body {
-    background-color: lightgrey;
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
     font-weight: normal;
@@ -54,8 +55,66 @@
     }
   }
 
-  #app > div {
-    margin: 0 auto;
-    width: 80%;
+  #app {
+    min-height: 100vh;
+
+    @each $theme in (light dark) {
+      &.#{$theme} {
+        background-color: color($theme, bg);
+        color: color($theme, fg);
+
+        & .comment {
+          box-shadow: inset 2px 2px 0px 0px color($theme, ui);
+        
+          &__info-meta--author.op {
+            color: color($theme, link);
+          }
+
+          &__toggle.toggled {
+            color: color($theme, shade-1);
+          }
+        }
+
+        & .thread {
+          &__content {
+            border-top: 2px solid color($theme, fg);
+            border-bottom: 2px solid color($theme, fg);
+          }
+
+          &__info--domain {
+            color: color($theme, shade-1);
+          }
+        }
+
+        & nav {
+          background-color: color($theme, ui);
+
+          & li {
+            color: color($theme, shade-1);
+
+            &:hover {
+              color: color($theme, shade-2);
+            }
+
+            &.active {
+              color: color($theme, shade-3);
+            }
+          }
+        }
+
+        & a {
+          color: color($theme, link);
+        }
+
+        & .sk-folding-cube .sk-cube:before {
+          background-color: color($theme, ui);
+        }
+      }
+    }
+
+    & > div {
+      margin: 0 auto;
+      width: 80%;
+    }
   }
 </style>

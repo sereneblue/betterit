@@ -2,7 +2,7 @@
   <div :class="commentStyle">
     <div class="comment__info">
       <span class="comment__info-meta">
-        <span class="comment__info-meta--author"><span v-if="submitter">★ </span>{{ author }}</span>
+        <span :class="{ 'comment__info-meta--author': true, op: submitter }"><span v-if="submitter">★ </span>{{ author }}</span>
         <span class="comment__info-meta--time">{{ created | since }}</span>
       </span>
       <span @click="hidden = !hidden" :class="{ comment__toggle : true, toggled : hidden }">{{ toggle }}</span>
@@ -68,10 +68,8 @@ export default {
 
 <style lang="scss">
   .comment {
-    box-shadow: inset 3px 0px 0px 0px black;
-    background-color: rgba(60, 60, 60, 0.06);
     margin-bottom: 8px;
-    padding: 0px 0px 4px 8px;
+    padding: 12px 0px 4px 12px;
 
     &__data {
       padding-top: 8px;
@@ -79,20 +77,16 @@ export default {
       & ol, ul {
         padding: 10px 0px 10px 20px;
       }
-
-      & a {
-        color: hsla(206,100%,35%,1);
-      }
     }
 
     &__info-meta {
-      font-size: .9em; 
-
       &--author {
+        font-size: .95em; 
         font-weight: 600;
       }
 
       &--time {
+        font-size: .8em;
         padding: 0px .4rem;
       }
     }
@@ -100,10 +94,6 @@ export default {
     &__toggle {
       font-size: .9em;
       cursor: pointer;
-
-      &.toggled {
-        color: rgba(0,0,0,0.5);
-      }
     }
 
     & .nested {

@@ -1,0 +1,25 @@
+$colors: (
+	dark: (
+		bg: #0e1419,
+		fg: #BFBAB0,
+		ui: #475259,
+		link: #39BAE6,
+		shade-1: rgba(white, 0.35),
+		shade-2: rgba(white, 0.7),
+		shade-3: rgba(white, 1)
+	),
+	light: (
+		bg: #fafafa,
+		fg: #61676C,
+		ui: #9DA2A6,
+		link: #F07171,
+		shade-1: rgba(#61676C, .5),
+		shade-2: rgba(#61676C, .9),
+		shade-3: rgba(#61676C, 1)
+	)
+);
+
+@function color($theme, $color) {
+  // map inception
+  @return map-get(map-get($colors, $theme), $color);
+}

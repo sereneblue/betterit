@@ -31,7 +31,6 @@ export default {
 
 <style scoped lang="scss">
   nav {
-    background-color: olive;
     display: flex;
     justify-content: space-between;
     padding: 5px 10px;
@@ -48,15 +47,9 @@ export default {
         list-style-type: none;
         padding: 0px 10px;
         text-align: center;
-        color: rgba(0,0,0,0.35);
 
         &:hover {
-          color: rgba(0,0,0,0.7);
           cursor: pointer;
-        }
-
-        &.active {
-          color: black;
         }
       }
     }

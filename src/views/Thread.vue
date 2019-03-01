@@ -3,7 +3,7 @@
     <div class="thread__info">
       <h3 class="thread__info--title">
         <span v-html="thread.title"></span> 
-        <span v-if="thread.domain" class="thread__info--domain">&nbsp;(<a href="">{{ thread.domain }}</a>)</span>
+        <span v-if="thread.domain" class="thread__info--domain">&nbsp;({{ thread.domain }})</span>
       </h3>
       <div class="thread__meta">
         <span class="thread__meta--score">▲ {{ thread.score | abbr }}&nbsp;</span>
@@ -90,13 +90,7 @@ export default {
       margin-bottom: 10px;
 
       &--domain {
-        color: grey;
         font-size: .7em;
-
-        & a {
-          color: grey;
-          text-decoration: none;
-        }
       }
 
       &--title {
@@ -106,8 +100,6 @@ export default {
 
     &__content {
       padding: 10px 0px;
-      border-top: 2px solid black;
-      border-bottom: 2px solid black;
     }
 
     &__comments {
