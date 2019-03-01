@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :class="currentTheme">
     <NavBar />
     <router-view :key="$route.fullPath" />
   </div>
@@ -7,6 +7,11 @@
 
 <script type="text/javascript">
   export default {
+    computed: {
+      currentTheme: function () {
+        return this.$store.state.theme;
+      }
+    },
     watch: {
       $route (to, from){
         this.$store.dispatch('clearState');

@@ -11,6 +11,7 @@ export default new Vuex.Store({
     listings: [],
     listingsLoaded: false,
     subreddit: "",
+    theme: "light",
     thread: {},
     threadLoaded: false
   },
@@ -20,6 +21,9 @@ export default new Vuex.Store({
         saved: new Date(),
         threads: payload.threads
       });
+    },
+    CHANGE_THEME: (state) => {
+      state.theme = state.theme == "light" ? "dark" : "light";
     },
     CLEAR: (state) => {
       state.comments.length = 0;
@@ -51,6 +55,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    changeTheme: ({commit, state}) => {
+      commit('CHANGE_THEME');
+    },
     clearState: ({commit, state}) => {
       commit('CLEAR');
     },

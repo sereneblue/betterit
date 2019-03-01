@@ -21,9 +21,17 @@ export default {
     sub () {
       return this.$store.state.subreddit;
     },
+    theme () {
+      return this.$store.state.theme;
+    },
     loaded () {
       return this.$route.name == "thread" ? 
              this.$store.state.threadLoaded : this.$store.state.listingsLoaded;
+    }
+  },
+  methods: {
+    changeTheme: function () {
+      this.$store.dispatch('changeTheme');
     }
   }
 };
