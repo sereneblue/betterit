@@ -80,6 +80,14 @@
           }
         }
 
+        & .listing {
+          &__thread {
+            &:hover {
+              background-color: rgba(color($theme, ui), .35);
+            }
+          }
+        }
+
         & .subreddit-alert {
           button {
             border: 3px solid color($theme, ui);
