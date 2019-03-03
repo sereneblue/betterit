@@ -98,7 +98,12 @@ export default new Vuex.Store({
             if (aboutRes.data && aboutRes.data.over18) {
               commit('NSFW_SUB');
             }
+            document.title = aboutRes.data.public_description || `betterit - ${aboutRes.data.display_name_prefixed}`;
+          } else {
+            document.title = `betterit - ${sub}`;
           }
+        } else {
+          document.title = `Posts from ${sub.replace('+', ', ')}`;
         }
 
         let listings = response.data.children.filter(t => {
@@ -124,6 +129,8 @@ export default new Vuex.Store({
       if (res.status == 404 || res.status == 403) {
         commit('UPDATE_ERROR', response.reason ? response.reason : response.message);
       } else {
+        document.title = `${response[0].data.children[0].data.title} : ${response[0].data.children[0].data.subreddit}`;
+
         commit('UPDATE_ERROR', "");
         commit('UPDATE_SUBREDDIT', sub);
 
