@@ -68,6 +68,31 @@
         background-color: color($theme, bg);
         color: color($theme, fg);
 
+        & blockquote {
+          position: relative;
+          background: rgba(color($theme, shade-1), 0.1);
+          border-left: 5px solid color($theme, link);
+          padding: .5em 30px .5em 50px;
+          margin: .5em 0em;
+          font-size: 1em;
+          font-style: italic;
+          line-height: 1.5;
+
+          &::before {
+            font-family: Arial;
+            content: "\201C";
+            color: color($theme, link);
+            font-size: 3em;
+            position: absolute;
+            left: 10px;
+            top: -10px;
+          }
+
+          &::after {
+            content: '';
+          }
+        }
+
         & .comment {
           box-shadow: inset 2px 2px 0px 0px color($theme, ui);
         
