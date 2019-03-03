@@ -48,6 +48,7 @@ export default {
     padding: 5px 10px;
     position: fixed;
     width: 100%;
+    z-index: 2;
 
     & ul {
       display: flex;
