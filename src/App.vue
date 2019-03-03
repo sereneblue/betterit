@@ -80,8 +80,14 @@
           }
         }
 
+        & .media__type {
+          background-color: rgba(color($theme, ui), .5);
+        }
+
         & .listing {
           &__thread {
+            border-left:inset 4px color($theme, link);
+
             &:hover {
               background-color: rgba(color($theme, ui), .35);
             }

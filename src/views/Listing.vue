@@ -1,13 +1,13 @@
 <template>
   <div v-if="listingsLoaded" class="listings">
     <div v-if="nsfw && !confirmNSFW" class="subreddit-alert">
-      <div class="subreddit-alert--icon">
+      <div class="subreddit-alert__icon">
         <WarningIcon />
       </div>
-      <div class="subreddit-alert--msg">
+      <div class="subreddit-alert__msg">
         You must be at least eighteen years old to view this content. Are you over eighteen and willing to see adult content?  
       </div>
-      <div class="subreddit-alert--buttons">
+      <div class="subreddit-alert__buttons">
         <button @click="confirmNSFW = true;">Yes</button>
         <button @click="goToHome();">No</button>
       </div>
@@ -119,7 +119,7 @@ export default {
 
 <style lang="scss">
   .listings {
-    padding-top: 30px;
+    padding: 30px 0px;
   }
 
   .listing {
@@ -133,12 +133,8 @@ export default {
     }
     
     &__thread {
-      padding: .75em .5em;
-      box-shadow: 0px 0px 6px -6px #222;
-
-      &:last-child {
-        padding-bottom: 30px;
-      }
+      padding: .5em;
+      margin: 1em 0em;
 
       &:hover {
         cursor: pointer;
@@ -178,7 +174,7 @@ export default {
     text-align: center;
     padding-top: 30px;
 
-    &--buttons {
+    &__buttons {
       margin-top: 1em;
 
       button {
@@ -196,11 +192,11 @@ export default {
       }
     }
 
-    &--icon {
+    &__icon {
       font-size: 10em;
     }
 
-    &--msg {
+    &__msg {
       font-size: 2em;
       font-weight: 600;
     }
