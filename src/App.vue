@@ -45,19 +45,9 @@
     background: rgba(238, 238, 238, 0.8) none repeat scroll 0% 0%;
     color: rgb(255, 0, 109);
     margin: 10px 0px;
+    padding: 3px;
     overflow: auto;
     max-width: 100%;
-  }
-
-  pre {
-    background-color: rgba(0,0,0,0.1);
-    padding: 10px;
-    margin: 10px 0px;
-
-    & > code {
-      background: none;
-      color: black;
-    }
   }
 
   #app {
@@ -90,6 +80,17 @@
 
           &::after {
             content: '';
+          }
+        }
+
+        & pre {
+          background-color: color($theme, fg);
+          padding: 10px;
+          margin: 10px 0px;
+
+          & > code {
+            background: none;
+            color: color($theme, bg);
           }
         }
 
