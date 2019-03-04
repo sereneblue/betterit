@@ -82,7 +82,9 @@ export default new Vuex.Store({
         }
       }
 
-      let res = await fetch(`https://www.reddit.com/r/${sub}${order}.json`);
+      let res = await fetch(`https://www.reddit.com/r/${sub}${order}.json`, {
+          redirect: 'manual'
+      });
       let response = await res.json();
 
       if (res.status == 404 || res.status == 403) {

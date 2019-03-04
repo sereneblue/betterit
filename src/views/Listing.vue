@@ -2,7 +2,7 @@
   <div v-if="listingsLoaded" class="listings">
     <div v-if="nsfw && !confirmNSFW" class="subreddit-alert">
       <div class="subreddit-alert__icon">
-        <WarningIcon />
+        <WalkIcon />
       </div>
       <div class="subreddit-alert__msg">
         You must be at least eighteen years old to view this content. Are you over eighteen and willing to see adult content?  
@@ -42,11 +42,12 @@
   </div>
   <div v-else class="listings">
     <div v-if="error" class="subreddit-alert">
-      <div class="subreddit-alert--icon">
-        <LockIcon v-if="error == 'private'" />
+      <div class="subreddit-alert__icon">
+        <KeyIcon v-if="error == 'private'" />
         <CloseCircleIcon v-else-if="error == 'banned'" />
+        <SadIcon v-else-if="error == 'Not Found'" />
       </div>
-      <div class="subreddit-alert--msg">
+      <div class="subreddit-alert__msg">
         {{ errorMessage }}
       </div>
     </div>
@@ -58,18 +59,20 @@
 
 <script>
 import Loader from "@/components/Loader.vue";
-import LockIcon from 'vue-ionicons/dist/md-lock.vue'
+import KeyIcon from 'vue-ionicons/dist/md-key.vue'
 import CloseCircleIcon from 'vue-ionicons/dist/md-close-circle.vue'
-import WarningIcon from 'vue-ionicons/dist/md-warning.vue'
+import SadIcon from 'vue-ionicons/dist/md-sad.vue'
+import WalkIcon from 'vue-ionicons/dist/md-walk.vue'
 
 export default {
   name: "listing",
   props: ['subreddit'],
   components: {
     CloseCircleIcon,
+    KeyIcon,
     Loader,
-    LockIcon,
-    WarningIcon
+    SadIcon,
+    WalkIcon
   },
   data: function() {
     return {
@@ -90,7 +93,9 @@ export default {
       if (this.error == "private") {
         return "You must be invited to visit this community";
       } else if (this.error == "banned") {
-        return `This subreddit has been banned from Reddit`;
+        return "This subreddit has been banned from Reddit";
+      } else if (this.error == 'Not Found') {
+        return "Sorry, there doesn't seem to be anything here.";
       }
     },
     listings () {
@@ -161,12 +166,14 @@ export default {
   }
 
   .nsfw-label {
+    position: relative;
     background-color: #8d20ae;
-    border-radius: 3px;
     color: white;
     font-size: .5em;
+    border-radius: 3px;
     padding: .25em;
     margin-left: .5em;
+    top: -5px;
   }
 
   .subreddit-alert {
