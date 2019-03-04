@@ -11,8 +11,9 @@ export default new Vuex.Store({
     listings: [],
     listingsLoaded: false,
     nsfw: false,
+    showMenu: false,
     subreddit: "",
-    theme: "light",
+    theme: "dark",
     thread: {},
     threadLoaded: false
   },
@@ -24,7 +25,7 @@ export default new Vuex.Store({
       });
     },
     CHANGE_THEME: (state) => {
-      state.theme = state.theme == "light" ? "dark" : "light";
+      Vue.set(state, 'theme', state.theme == "dark" ? "light" : "dark");
     },
     CLEAR: (state) => {
       state.comments.length = 0;
@@ -42,6 +43,9 @@ export default new Vuex.Store({
     },
     THREAD_LOADED: (state) => {
       Vue.set(state, 'threadLoaded', true);
+    },
+    TOGGLE_MENU: (state, visible) => {
+      Vue.set(state, 'showMenu', visible);
     },
     UPDATE_COMMENTS: (state, comments) => {
       Vue.set(state, 'comments', comments);
@@ -142,6 +146,9 @@ export default new Vuex.Store({
         commit('UPDATE_THREAD', response[0].data.children[0].data);
         commit('THREAD_LOADED');
       }
+    },
+    toggleMenu: ({commit, state}) => {
+      commit('TOGGLE_MENU', !state.showMenu);
     }
   }
 });

@@ -163,6 +163,10 @@
           color: color($theme, link);
         }
 
+        & .dropmenu {
+          background-color: color($theme, ui);
+        }
+
         & .sk-folding-cube .sk-cube:before {
           background-color: color($theme, ui);
         }
