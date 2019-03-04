@@ -20,6 +20,13 @@
     <div v-if="thread.selftext_html" class="thread__content">
       <vue-markdown>{{ html }}</vue-markdown>
     </div>
+    <div v-else-if="thread.post_hint || thread.url.endsWith('.gifv') || thread.media || thread.media_embed">
+      <Media 
+      :url="thread.url" 
+      :hint="thread.post_hint" 
+      :embed="thread.media_embed"
+      :media="thread.media" />
+    </div>
     <div class="thread__comments">
       <div v-if="comments.length > 0">
         <Comment
@@ -46,6 +53,7 @@
 <script>
 import Comment from "@/components/Comment.vue";
 import Loader from "@/components/Loader.vue";
+import Media from "@/components/Media.vue";
 import VueMarkdown from 'vue-markdown'
 
 export default {
@@ -54,6 +62,7 @@ export default {
   components: {
     Comment,
     Loader,
+    Media,
     VueMarkdown
   },
   created: function() {

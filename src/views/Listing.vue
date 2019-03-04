@@ -20,9 +20,12 @@
             <span v-if="thread.domain.indexOf('self.') == -1" class="listing__domain">&nbsp;({{ thread.domain }})</span>
             <span v-if="thread.over_18" class="nsfw-label">NSFW</span>
           </div>
-          <div v-if="thread.post_hint" class="listing__content">
-            <span v-if="thread.post_hint == 'image'" @mouseover.once="show(event, thread.url);">IMAGE</span>
-            <span v-else-if="thread.post_hint == 'rich:video' || thread.post_hint == 'hosted:video'">VIDEO</span>
+          <div v-if="thread.post_hint || thread.url && !thread.is_self" class="listing__content">
+            <Media 
+            :url="thread.url" 
+            :hint="thread.post_hint" 
+            :embed="thread.media_embed"
+            :media="thread.media" />
           </div>
           <div class="listing__thread-info">
             <span class="listing__thread-info--score">▲ {{ thread.score | abbr }}</span>
@@ -58,6 +61,7 @@
 </template>
 
 <script>
+import Media from "@/components/Media.vue";
 import Loader from "@/components/Loader.vue";
 import KeyIcon from 'vue-ionicons/dist/md-key.vue'
 import CloseCircleIcon from 'vue-ionicons/dist/md-close-circle.vue'
@@ -70,6 +74,7 @@ export default {
   components: {
     CloseCircleIcon,
     KeyIcon,
+    Media,
     Loader,
     SadIcon,
     WalkIcon
