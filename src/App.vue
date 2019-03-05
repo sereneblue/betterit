@@ -16,6 +16,10 @@
       $route (to, from){
         this.$store.dispatch('clearState');
 
+        if (this.$store.state.showMenu) {
+          this.$store.dispatch('toggleMenu');
+        }
+        
         if (to.name == "subreddit") {
           this.$router.push({ name: to.name, params: to.params });
         } else if (to.name == "thread") {

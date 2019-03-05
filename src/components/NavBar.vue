@@ -17,15 +17,23 @@
       </ul>
     </nav>
     <transition name="slide-fade">
-      <div v-show="showMenu" class="dropmenu">
+      <div v-show="showMenu" v-click-outside="hide" class="dropmenu">
         <div class="container">
           <center>
-            <label @click.self="changeTheme">
-              <input @click.stop type="checkbox" id="darkThemeEnabled">Enable Dark Theme
-            </label>
+            <input @click="changeTheme" type="checkbox" id="darkThemeEnabled">Enable Dark Theme
+          </center>
+          <center>
+            <input @click="updateSubreddits" type="checkbox" id="updateSubs">Add to subreddit list
           </center>
           <h3>Subreddits</h3>
           <div class="subreddits">
+            <div v-for="s in subs" class="subreddit">
+              <router-link 
+              :to="{ name: 'subreddit', params: { subreddit: s }}"
+              class="subreddit__name"
+              tag="span">r/{{ s }}</router-link>
+              <span @click="removeSub(s)" class="subreddit__delete"><DeleteIcon/></span>
+            </div>
           </div>
         </div>
       </div>
@@ -40,6 +48,12 @@ export default {
   name: "navbar",
   components: {
     DeleteIcon
+  },
+  data: function () {
+    return {
+      delay: false,
+      subs: []
+    }
   },
   computed: {
     error () {
@@ -61,24 +75,54 @@ export default {
   },
   methods: {
     changeTheme: function () {
-      document.getElementById('darkThemeEnabled').checked = this.theme == 'dark';
       this.$store.dispatch('changeTheme');
+      document.getElementById('darkThemeEnabled').checked = this.theme == 'dark';
     },
-    toggleMenu: function() {
+    hide: function (event) {
+      if (this.showMenu) {
+        if (this.delay) {
+          this.$store.dispatch('toggleMenu');
+        }
+        
+        this.delay = !this.delay;
+      }
+    },
+    removeSub: function (sub) {
+      this.subs = this.subs.filter(s => s !== sub);
+      localStorage.setItem('subreddits', JSON.stringify(this.subs));
+    },
+    toggleMenu: function () {
       this.$store.dispatch('toggleMenu');
+    },
+    updateSubreddits: function (e) {
+      if (this.subs.length) {
+        let found = this.subs.findIndex(s => s == this.sub);
+        if (found > -1) {
+          this.subs = this.subs.filter(s => s !== this.sub);
+        } else {
+          this.subs.push(this.sub);
+        }
+      } else {
+        this.subs.push(this.sub);
+      }
+
+      localStorage.setItem('subreddits', JSON.stringify(this.subs));
     }
   },
   mounted: function () {
+    this.subs = JSON.parse(localStorage.getItem('subreddits')) || [];
+
     document.getElementById('darkThemeEnabled').checked = this.theme == 'dark';
   },
+  watch: {
+    sub: function (newSub, oldSub) {
+      document.getElementById('updateSubs').checked = this.subs.findIndex(s => s == newSub) > -1 ? true : false;
+    }
+  }
 };
 </script>
 
 <style scoped lang="scss">
-  label {
-    cursor: pointer;
-  }
-
   nav {
     display: flex;
     justify-content: space-between;
@@ -141,7 +185,7 @@ export default {
     margin: 0 auto;
   }
 
-  .sub {
+  .subreddit {
     float: left;
     font-weight: 600;
     padding: 5px;
