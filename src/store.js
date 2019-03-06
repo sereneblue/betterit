@@ -24,10 +24,10 @@ export default new Vuex.Store({
         threads: payload.threads
       });
     },
-    CHANGE_THEME: (state) => {
-      Vue.set(state, 'theme', state.theme == "dark" ? "light" : "dark");
+    CHANGE_THEME: state => {
+      Vue.set(state, "theme", state.theme == "dark" ? "light" : "dark");
     },
-    CLEAR: (state) => {
+    CLEAR: state => {
       state.comments.length = 0;
       state.listings = [];
       state.threadLoaded = false;
@@ -35,120 +35,139 @@ export default new Vuex.Store({
       state.nsfw = false;
       state.thread = Object.freeze({});
     },
-    LISTINGS_LOADED: (state) => {
-      Vue.set(state, 'listingsLoaded', true);
+    LISTINGS_LOADED: state => {
+      Vue.set(state, "listingsLoaded", true);
     },
-    NSFW_SUB: (state) => {
+    NSFW_SUB: state => {
       state.nsfw = true;
     },
-    THREAD_LOADED: (state) => {
-      Vue.set(state, 'threadLoaded', true);
+    THREAD_LOADED: state => {
+      Vue.set(state, "threadLoaded", true);
     },
     TOGGLE_MENU: (state, visible) => {
-      Vue.set(state, 'showMenu', visible);
+      Vue.set(state, "showMenu", visible);
     },
     UPDATE_COMMENTS: (state, comments) => {
-      Vue.set(state, 'comments', comments);
+      Vue.set(state, "comments", comments);
     },
     UPDATE_ERROR: (state, err) => {
-      Vue.set(state, 'error', err);
+      Vue.set(state, "error", err);
     },
     UPDATE_LISTINGS: (state, listings) => {
-      Vue.set(state, 'listings', listings);
+      Vue.set(state, "listings", listings);
     },
     UPDATE_SUBREDDIT: (state, sub) => {
-      Vue.set(state, 'subreddit', sub);
+      Vue.set(state, "subreddit", sub);
     },
     UPDATE_THREAD: (state, thread) => {
-      Vue.set(state, 'thread', thread);
+      Vue.set(state, "thread", thread);
     }
   },
   actions: {
-    changeTheme: ({commit, state}) => {
-      commit('CHANGE_THEME');
+    changeTheme: ({ commit, state }) => {
+      commit("CHANGE_THEME");
     },
-    clearState: ({commit, state}) => {
-      commit('CLEAR');
+    clearState: ({ commit, state }) => {
+      commit("CLEAR");
     },
-    getListings: async ({ commit, state }, params ) => {
+    getListings: async ({ commit, state }, params) => {
       let sub = params.subreddit ? params.subreddit : "popular";
       let order = params.sort ? "/" + params.sort : "";
       let cacheKey = sub + order;
 
       // cache
       if (state.cache[cacheKey]) {
-        if ((new Date() - state.cache[cacheKey].saved) < 90000) {
-          commit('UPDATE_ERROR', "");
-          commit('UPDATE_SUBREDDIT', sub);
-          commit('UPDATE_LISTINGS', state.cache[cacheKey].threads);
-          commit('LISTINGS_LOADED');
+        if (new Date() - state.cache[cacheKey].saved < 90000) {
+          commit("UPDATE_ERROR", "");
+          commit("UPDATE_SUBREDDIT", sub);
+          commit("UPDATE_LISTINGS", state.cache[cacheKey].threads);
+          commit("LISTINGS_LOADED");
           return;
         }
       }
 
       let res = await fetch(`https://www.reddit.com/r/${sub}${order}.json`, {
-          redirect: 'manual'
+        redirect: "manual"
       });
       let response = await res.json();
 
       if (res.status == 404 || res.status == 403) {
-        commit('UPDATE_ERROR', response.reason ? response.reason : response.message);
+        commit(
+          "UPDATE_ERROR",
+          response.reason ? response.reason : response.message
+        );
       } else {
         // check if nsfw
-        if (!sub.includes('+')) {
+        if (!sub.includes("+")) {
           res = await fetch(`https://www.reddit.com/r/${sub}/about.json`);
 
           if (res.status == 200) {
             let aboutRes = await res.json();
 
             if (aboutRes.data && aboutRes.data.over18) {
-              commit('NSFW_SUB');
+              commit("NSFW_SUB");
             }
-            document.title = aboutRes.data.public_description || `betterit - ${aboutRes.data.display_name_prefixed}`;
+            document.title =
+              aboutRes.data.public_description ||
+              `betterit - ${aboutRes.data.display_name_prefixed}`;
           } else {
             document.title = `betterit - ${sub}`;
           }
         } else {
-          document.title = `Posts from ${sub.replace('+', ', ')}`;
+          document.title = `Posts from ${sub.replace("+", ", ")}`;
         }
 
-        let listings = response.data.children.filter(t => {
-          return t.kind == "t3"
-        }).map(t => t.data);
+        let listings = response.data.children
+          .filter(t => {
+            return t.kind == "t3";
+          })
+          .map(t => t.data);
 
-        commit('UPDATE_ERROR', "");
-        commit('UPDATE_SUBREDDIT', sub);
-        commit('UPDATE_LISTINGS', listings);
-        commit('CACHE_SUB', {
-          key: cacheKey, 
+        commit("UPDATE_ERROR", "");
+        commit("UPDATE_SUBREDDIT", sub);
+        commit("UPDATE_LISTINGS", listings);
+        commit("CACHE_SUB", {
+          key: cacheKey,
           threads: Object.freeze([...listings])
         });
-        commit('LISTINGS_LOADED');
+        commit("LISTINGS_LOADED");
       }
     },
-    getComments: async ({ commit, state }, params ) => {
+    getComments: async ({ commit, state }, params) => {
       let sub = params.subreddit ? params.subreddit : "popular";
 
-      let res = await fetch(`https://www.reddit.com/r/${sub}/comments/${params.id}.json`);
+      let res = await fetch(
+        `https://www.reddit.com/r/${sub}/comments/${params.id}.json`
+      );
       let response = await res.json();
 
       if (res.status == 404 || res.status == 403) {
-        commit('UPDATE_ERROR', response.reason ? response.reason : response.message);
+        commit(
+          "UPDATE_ERROR",
+          response.reason ? response.reason : response.message
+        );
       } else {
-        document.title = `${response[0].data.children[0].data.title} : ${response[0].data.children[0].data.subreddit}`;
+        document.title = `${response[0].data.children[0].data.title} : ${
+          response[0].data.children[0].data.subreddit
+        }`;
 
-        commit('UPDATE_ERROR', "");
-        commit('UPDATE_SUBREDDIT', sub);
+        commit("UPDATE_ERROR", "");
+        commit("UPDATE_SUBREDDIT", sub);
 
-        commit('UPDATE_COMMENTS', response[1].data.children.filter(c => {
-          return c.kind == "t1"
-        }).map(c => c.data));
-        commit('UPDATE_THREAD', response[0].data.children[0].data);
-        commit('THREAD_LOADED');
+        commit(
+          "UPDATE_COMMENTS",
+          response[1].data.children
+            .filter(c => {
+              return c.kind == "t1";
+            })
+            .map(c => c.data)
+        );
+        commit("UPDATE_THREAD", response[0].data.children[0].data);
+        commit("THREAD_LOADED");
       }
     },
-    toggleMenu: ({commit, state}) => {
-      commit('TOGGLE_MENU', !state.showMenu);
+    toggleMenu: ({ commit, state }) => {
+      commit("TOGGLE_MENU", !state.showMenu);
     }
   }
 });

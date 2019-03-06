@@ -5,57 +5,71 @@ import Comment from "@/components/Comment.vue";
 import NavBar from "@/components/NavBar.vue";
 import router from "./router";
 import store from "./store";
-require('typeface-open-sans');
-require('typeface-source-code-pro');
-require('vue-ionicons/ionicons.css');
+require("typeface-open-sans");
+require("typeface-source-code-pro");
+require("vue-ionicons/ionicons.css");
 
 Vue.config.productionTip = false;
 
-Vue.component('Reply', Comment);
-Vue.component('NavBar', NavBar);
+Vue.component("Reply", Comment);
+Vue.component("NavBar", NavBar);
 
-Vue.filter('abbr', function (num) {
-  if (num === 0 || num === undefined ) { return '0'; }
-  let b = (num).toPrecision(2).split("e"),
+Vue.filter("abbr", function(num) {
+  if (num === 0 || num === undefined) {
+    return "0";
+  }
+  let b = num.toPrecision(2).split("e"),
     k = b.length === 1 ? 0 : Math.floor(Math.min(b[1].slice(1), 14) / 3),
-    c = k < 1 ? num.toFixed(0) : (num / Math.pow(10, k * 3) ).toFixed(1),
+    c = k < 1 ? num.toFixed(0) : (num / Math.pow(10, k * 3)).toFixed(1),
     d = c < 0 ? c : Math.abs(c),
-    e = d + ['', 'k', 'm', 'b', 't'][k];
+    e = d + ["", "k", "m", "b", "t"][k];
   return e;
-})
+});
 
-Vue.filter('since', function (unixTimestamp) {
+Vue.filter("since", function(unixTimestamp) {
   return moment(unixTimestamp * 1000).fromNow();
-})
+});
 
-Vue.filter('clean', function (text) {
+Vue.filter("clean", function(text) {
   let txt = document.createElement("textarea");
   txt.innerHTML = text;
 
   // fix links
   let cleanedText = txt.value;
 
-  cleanedText = cleanedText.replace(/href="\/?(r\/[^\s/]+)\/?"/g, `href="/#/$1"`);
-  cleanedText = cleanedText.replace(/<a href="\/?(u\/.*?)\/?">.*?<\/a>/g, `/$1`);
-  cleanedText = cleanedText.replace(/<a href="https:\/\/www.reddit.com\/(u\/.*?)\/?>.*?<\/a>/g, `/$1`);
-  cleanedText = cleanedText.replace(/https:\/\/(www|old).reddit.com\/(r\/[^\s/]+\/?)\/comments\/(.*?)\/.*?\//g, `${window.location.origin}${window.location.pathname}/#/$2/t/$3`);
+  cleanedText = cleanedText.replace(
+    /href="\/?(r\/[^\s/]+)\/?"/g,
+    `href="/#/$1"`
+  );
+  cleanedText = cleanedText.replace(
+    /<a href="\/?(u\/.*?)\/?">.*?<\/a>/g,
+    `/$1`
+  );
+  cleanedText = cleanedText.replace(
+    /<a href="https:\/\/www.reddit.com\/(u\/.*?)\/?>.*?<\/a>/g,
+    `/$1`
+  );
+  cleanedText = cleanedText.replace(
+    /https:\/\/(www|old).reddit.com\/(r\/[^\s/]+\/?)\/comments\/(.*?)\/.*?\//g,
+    `${window.location.origin}${window.location.pathname}/#/$2/t/$3`
+  );
   cleanedText = cleanedText.replace(/<a href=("\/message\.*?)">/, `#/dne`);
 
   return cleanedText;
 });
 
-Vue.directive('click-outside', {
-  bind: function (el, binding, vnode) {
-    el.clickOutsideEvent = function (event) {
+Vue.directive("click-outside", {
+  bind: function(el, binding, vnode) {
+    el.clickOutsideEvent = function(event) {
       if (!(el == event.target || el.contains(event.target))) {
         vnode.context[binding.expression](event);
       }
     };
-    document.body.addEventListener('click', el.clickOutsideEvent)
+    document.body.addEventListener("click", el.clickOutsideEvent);
   },
-  unbind: function (el) {
-    document.body.removeEventListener('click', el.clickOutsideEvent)
-  },
+  unbind: function(el) {
+    document.body.removeEventListener("click", el.clickOutsideEvent);
+  }
 });
 
 new Vue({

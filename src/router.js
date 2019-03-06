@@ -11,7 +11,7 @@ export default new Router({
     {
       path: "/",
       name: "home",
-      redirect: '/r/popular'
+      redirect: "/r/popular"
     },
     {
       path: "/r/:subreddit/:sort?",
