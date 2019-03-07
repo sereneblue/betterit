@@ -12,6 +12,15 @@
         return this.$store.state.theme;
       }
     },
+    mounted: function() {
+      let theme = localStorage.getItem("theme");
+
+      if (theme && this.currentTheme != theme) {
+        this.$store.dispatch('changeTheme');
+      }
+
+      localStorage.setItem("theme", this.currentTheme);
+    },
     watch: {
       $route (to, from){
         this.$store.dispatch('clearState');

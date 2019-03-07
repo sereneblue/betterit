@@ -131,6 +131,7 @@ export default {
       this.$store.dispatch("changeTheme");
       document.getElementById("darkThemeEnabled").checked =
         this.theme == "dark";
+      localStorage.setItem("theme", this.theme);
     },
     hide: function(event) {
       if (this.showMenu) {
