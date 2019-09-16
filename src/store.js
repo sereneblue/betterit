@@ -86,7 +86,7 @@ export default new Vuex.Store({
         }
       }
 
-      let res = await fetch(`https://www.reddit.com/r/${sub}${order}.json`, {
+      let res = await fetch(`https://www.reddit.com/r/${sub}${order}.jsonp`, {
         redirect: "manual"
       });
       let response = await res.json();
@@ -99,7 +99,7 @@ export default new Vuex.Store({
       } else {
         // check if nsfw
         if (!sub.includes("+")) {
-          res = await fetch(`https://www.reddit.com/r/${sub}/about.json`);
+          res = await fetch(`https://www.reddit.com/r/${sub}/about.jsonp`);
 
           if (res.status == 200) {
             let aboutRes = await res.json();
@@ -137,7 +137,7 @@ export default new Vuex.Store({
       let sub = params.subreddit ? params.subreddit : "popular";
 
       let res = await fetch(
-        `https://www.reddit.com/r/${sub}/comments/${params.id}.json`
+        `https://www.reddit.com/r/${sub}/comments/${params.id}.jsonp`
       );
       let response = await res.json();
 
