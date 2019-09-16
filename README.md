@@ -16,6 +16,7 @@ You can access betterit by clicking [here](https://sereneblue.github.io/betterit
 If you want to use betterit locally, clone this repository and run 
 
 ```
+npm install
 npm run serve
 ```
 
